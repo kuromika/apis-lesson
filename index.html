@@ -7,10 +7,26 @@
     <title>APIS TEST</title>
 </head>
 <body>
-    
-    <img src="#">
-    <script>
 
+    <img src="#">
+
+    <button type="button" style="display:block">Click me for a new image</button>
+
+    <script>
+        const img = document.querySelector('img');
+        const button = document.querySelector('button');
+        
+        const fetchImage = function(){
+                    return fetch('https://api.giphy.com/v1/gifs/translate?api_key=gzaeZogV8n4sbDRKSpkHfehGTRn0YdDx&s=cats', {mode: 'cors'});
+        }
+        button.addEventListener('click', () => {
+                fetchImage().then(function (response) {
+                    return response.json();
+                }).then(function (response) {
+                    img.src = response.data.images.original.url;
+            }); 
+         });
+                
     </script>
     
 </body>
