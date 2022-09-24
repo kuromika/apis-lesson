@@ -1,33 +1,48 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>APIS TEST</title>
 </head>
+
 <body>
+
+    <input type="text" style="display: block;">
 
     <img src="#">
 
-    <button type="button" style="display:block">Click me for a new image</button>
+    <button type="button" style="display:block">Search</button>
 
     <script>
         const img = document.querySelector('img');
         const button = document.querySelector('button');
-        
-        const fetchImage = function(){
-                    return fetch('https://api.giphy.com/v1/gifs/translate?api_key=gzaeZogV8n4sbDRKSpkHfehGTRn0YdDx&s=cats', {mode: 'cors'});
+        const input = document.querySelector('input');
+
+        const fetchImage = function (search) {
+            return fetch(`https://api.giphy.com/v1/gifs/translate?api_key=gzaeZogV8n4sbDRKSpkHfehGTRn0YdDx&s=${search}`, { mode: 'cors' });
         }
         button.addEventListener('click', () => {
-                fetchImage().then(function (response) {
+            fetchImage(input.value).then(function (response) {
+                return response.json();
+            }).then(function (response) {
+                img.src = response.data.images.original.url;
+            }).catch((error) => {
+                img.src = fetch(`https://api.giphy.com/v1/gifs/translate?api_key=gzaeZogV8n4sbDRKSpkHfehGTRn0YdDx&s=cats`, { mode: 'cors' }).
+                then(function(response){
                     return response.json();
-                }).then(function (response) {
+                }).then(function(response){
                     img.src = response.data.images.original.url;
-            }); 
-         });
-                
+                });
+            });
+        });
+
+        button.click();
+
     </script>
-    
+
 </body>
+
 </html>
